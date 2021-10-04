@@ -1,0 +1,15 @@
+{
+    "name": "markus/php_basic_framework",
+    "autoload": {
+        "psr-4": {
+            "Markus\\PhpBasicFramework\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "MarkusAleksander",
+            "email": "markholden1989@googlemail.com"
+        }
+    ],
+    "require": {}
+}
