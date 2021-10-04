@@ -1,5 +1,7 @@
 <?php
 
+use Core\{Router, Request};
+
 /**
  * Entry point to the application
  * 
@@ -10,6 +12,6 @@
 
 require 'vender/autoload.php';
 
-//  require 'src/core/bootstrap.php';
+require 'src/core/bootstrap.php';
 
-//  * Router
+Router::load('src/routes/routes.php')->direct(Request::uri(), Request::method());

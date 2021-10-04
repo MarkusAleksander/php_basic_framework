@@ -1,6 +1,7 @@
 <?php
 
 use Core\App;
+use Core\Database\{QueryBuilder, Connection};
 
 /**
  * Begin bootstrapping the app
