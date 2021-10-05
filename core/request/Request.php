@@ -1,6 +1,6 @@
 <?php
 
-namespace Core;
+namespace Core\Request;
 
 /**
  * Manage Requests into the app

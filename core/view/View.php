@@ -1,6 +1,6 @@
 <?php
 
-namespace Core;
+namespace Core\View;
 
 /**
  * Class for handling views
@@ -9,7 +9,7 @@ namespace Core;
 class View
 {
 
-    static $view_root = "src/views/";
+    static $view_root = "app/views/";
 
     /**
      * Make view from named view file and pass in data
@@ -18,6 +18,8 @@ class View
     {
         extract($data);
 
-        return require "{static:$view_root}{$name}.view.php";
+        $root = static::$view_root;
+
+        return require "../{$root}{$name}.view.php";
     }
 }

@@ -9,7 +9,7 @@ use Core\Database\{QueryBuilder, Connection};
  * */
 
 //  * Inject dependecies to the App
-App::bind('db_config', require 'src/config/database.php');
+App::bind('db_config', require '../config/database.php');
 
 App::bind('database', new QueryBuilder(
     Connection::make(App::get('db_config')['database'])

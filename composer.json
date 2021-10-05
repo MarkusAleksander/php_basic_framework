@@ -2,7 +2,8 @@
     "name": "markus/php_basic_framework",
     "autoload": {
         "psr-4": {
-            "Markus\\PhpBasicFramework\\": "src/"
+            "App\\": "app/",
+            "Core\\": "core/"
         }
     },
     "authors": [

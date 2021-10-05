@@ -1,6 +1,6 @@
 <?php
 
-namespace Core;
+namespace Core\Router;
 
 /**
  * Handle routing of the Request
@@ -40,7 +40,7 @@ class Router
     protected function callAction($controller, $action)
     {
         // * Reference controller namespace
-        $controller = "App\\Controllers\\{$controller}";
+        $controller = "App\\Http\\Controllers\\{$controller}";
 
         // * new it uo
         $controller = new $controller;
