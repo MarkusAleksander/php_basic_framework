@@ -34,7 +34,7 @@ class Router
             );
         }
 
-        throw new \Exception('Route not found');
+        throw new \Exception("Route {$method}:{$uri} not found");
     }
 
     protected function callAction($controller, $action)

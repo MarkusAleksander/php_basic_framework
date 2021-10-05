@@ -25,8 +25,21 @@ class Request
         return $_SERVER['REQUEST_METHOD'];
     }
 
-    // * Get the request parameters
-    public static function params()
+    // * Get the get request parameters
+    public static function get_params()
     {
+        if (static::method() !== "GET") {
+            throw new \Exception("Incorrect Request Type for params");
+        }
+        return $_GET;
+    }
+
+    // * Get the post request params
+    public static function post_params()
+    {
+        if (static::method() !== "POST") {
+            throw new \Exception("Incorrect Request Type for params");
+        }
+        return $_POST;
     }
 }

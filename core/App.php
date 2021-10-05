@@ -10,24 +10,24 @@ namespace Core;
 class App
 {
     // * Array of injected dependencies
-    protected static $registry = [];
+    protected $registry = [];
 
     // * Bind a dependency to a key and save to the registry
-    public static function bind($key, $value)
+    public function bind($key, $value)
     {
         // * check array key exists
-        if (array_key_exists($key, static::$registry)) {
+        if (array_key_exists($key, $this->registry)) {
             throw new \Exception("Registry key already defined");
         }
 
-        static::$registry[$key] = $value;
+        $this->registry[$key] = $value;
     }
 
     // * Get a bound dependency from the registry
-    public static function get($key)
+    public function get($key)
     {
-        if (array_key_exists($key, static::$registry)) {
-            return static::$registry[$key];
+        if (array_key_exists($key, $this->registry)) {
+            return $this->registry[$key];
         }
 
         throw new \Exception("Key not found in registry");
