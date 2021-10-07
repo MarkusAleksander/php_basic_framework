@@ -10,6 +10,15 @@
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
+// use App\Container\Container;
+// use App\Test\User;
+
+// $container = new Container;
+// $user = $container->get(User::class);
+// $user->userModel()->set("Marko");
+// echo $user->userModel()->get();
+// die(var_dump($container));
+
 require_once '../bootstrap/bootstrap.php';
 
 

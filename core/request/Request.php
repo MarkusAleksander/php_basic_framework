@@ -26,16 +26,16 @@ class Request
     }
 
     // * Get the get request parameters
-    public static function get_params()
+    public static function query()
     {
         if (static::method() !== "GET") {
-            throw new \Exception("Incorrect Request Type for params");
+            throw new \Exception("Incorrect Request Type for query");
         }
         return $_GET;
     }
 
     // * Get the post request params
-    public static function post_params()
+    public static function params()
     {
         if (static::method() !== "POST") {
             throw new \Exception("Incorrect Request Type for params");

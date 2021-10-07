@@ -9,7 +9,7 @@ class Home
 {
     public function index()
     {
-        $params = Request::get_params();
+        $params = Request::query();
 
         View::make('index', ["params" => $params]);
     }
