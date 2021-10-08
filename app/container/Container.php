@@ -1,5 +1,16 @@
 <?php
 
+// Example
+// use App\Container\Container;
+// use App\Test\User;
+
+// $container = new Container;
+// $user = $container->get(User::class);
+// $user->userModel()->set("Marko");
+// echo $user->userModel()->get();
+// die(var_dump($container));
+
+
 namespace App\Container;
 
 use App\Container\Exception\DependencyHasNoDefaultValueException;
@@ -56,7 +67,7 @@ class Container implements ContainerInterface
         $parameters = $constructor->getParameters();
         $dependencies = $this->getDependencies($parameters, $reflection);
 
-        // * Return new instance with dependecies
+        // * Return new instance with dependencies
         return $reflection->newInstanceArgs($dependencies);
     }
 

@@ -31,15 +31,31 @@ class Request
         if (static::method() !== "GET") {
             throw new \Exception("Incorrect Request Type for query");
         }
-        return $_GET;
+
+        // * sanitize post data
+        $body = [];
+
+        foreach ($_GET as $key => $value) {
+            $body[$key] = filter_input(INPUT_GET, $key, FILTER_SANITIZE_SPECIAL_CHARS);
+        }
+
+        return $body;
     }
 
     // * Get the post request params
-    public static function params()
+    public static function body()
     {
         if (static::method() !== "POST") {
-            throw new \Exception("Incorrect Request Type for params");
+            throw new \Exception("Incorrect Request Type for body");
         }
-        return $_POST;
+
+        // * sanitize post data
+        $body = [];
+
+        foreach ($_POST as $key => $value) {
+            $body[$key] = filter_input(INPUT_POST, $key, FILTER_SANITIZE_SPECIAL_CHARS);
+        }
+
+        return $body;
     }
 }

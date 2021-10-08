@@ -2,6 +2,11 @@
 
 namespace Core\Router;
 
+use App\Http\Controllers\Controller;
+
+use Core\Request\Request;
+use Core\Response\Response;
+
 /**
  * Handle routing of the Request
  */
@@ -9,13 +14,17 @@ namespace Core\Router;
 class Router
 {
 
-    // * Routes array to populate
-    protected $routes = [
+    /**
+     * Array of Get and Post route arrays
+     */
+    protected array $routes = [
         "GET" => [],
         "POST" => []
     ];
 
-    // * load route data into $routes
+    /**
+     * Load a Routes file
+     */
     public static function load($file)
     {
         $router = new static;
@@ -25,41 +34,47 @@ class Router
         return $router;
     }
 
-    // * direct to appropriate route
-    public function direct($uri, $method)
+    /**
+     * Resolve the current requested route
+     */
+    public function resolve()
     {
+        $uri = Request::uri();
+        $method = Request::method();
+
         if (array_key_exists($uri, $this->routes[$method])) {
-            return $this->callAction(
-                ...explode('@', $this->routes[$method][$uri])
-            );
+
+            $controller_action_array = $this->routes[$method][$uri];
+
+            $controller = $controller_action_array[0];
+            $action = $controller_action_array[1];
+
+            // * new it up
+            $controller = new $controller;
+
+            return $controller->$action();
         }
+        // * TODO - Debug toggling
+        // * Return base controller 404 error handler
+        $controller = new Controller();
+        return $controller->error(404);
 
         throw new \Exception("Route {$method}:{$uri} not found");
     }
 
-    protected function callAction($controller, $action)
+    /**
+     * Add a Get path and callback to the routes array
+     */
+    public function get($uri, $callback)
     {
-        // * Reference controller namespace
-        $controller = "App\\Http\\Controllers\\{$controller}";
-
-        // * new it uo
-        $controller = new $controller;
-
-        if (!method_exists($controller, $action)) {
-            throw new \Exception("Method {$action} doesn't exist on controller {$controller}");
-        }
-
-        // * return results of controller
-        return $controller->$action();
+        $this->routes['GET'][$uri] = $callback;
     }
 
-    public function get($uri, $controller)
+    /**
+     * Add a Post path and callback to the routes array
+     */
+    public function post($uri, $callback)
     {
-        $this->routes['GET'][$uri] = $controller;
-    }
-
-    public function post($uri, $controller)
-    {
-        $this->routes['POST'][$uri] = $controller;
+        $this->routes['POST'][$uri] = $callback;
     }
 }

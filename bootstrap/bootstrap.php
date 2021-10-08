@@ -1,10 +1,9 @@
 <?php
 
-use Core\App;
-use Core\Database\{QueryBuilder, Connection};
-
+use Core\App\App;
 use Core\Router\Router;
-use Core\Request\Request;
+use Core\Response\Response;
+use Core\Database\{QueryBuilder, Connection};
 
 /**
  * Begin bootstrapping the app
@@ -12,28 +11,47 @@ use Core\Request\Request;
  * Set up the required services to run
  * */
 
-define('APP_ROOT', __DIR__ . '/../');
+// * Create new app
+$app = new App(__DIR__ . '/../');
 
 // * Load the .env file
-$dotenv = Dotenv\Dotenv::createImmutable(APP_ROOT);
+$dotenv = Dotenv\Dotenv::createImmutable(App::$APP_ROOT);
 $dotenv->load();
 
-$app = new App;
 
-$app->bind('resolve_root_dir', function ($path) {
-    return APP_ROOT . $path;
-});
+// * Assign router to the app
+$app->setRouter(Router::load(App::$APP_ROOT . '/routes/routes.php'));
 
-//  * Inject dependencies to the App
-$app->bind('db_config', require $app->get('resolve_root_dir')("/config/database.php"));
 
-// * Attempt to connect to the database
-$app->bind('database', new QueryBuilder(
-    Connection::make($app->get('db_config')['database'])
+// * Assign Query Builder to the app
+$database = require App::$APP_ROOT . "/config/database.php";
+
+$app->setQueryBuilder(new QueryBuilder(
+    Connection::make($database['database'])
 ));
 
-// * Bind router and request
-$app->bind('router', Router::load($app->get('resolve_root_dir')("/routes/routes.php")));
-$app->bind('request', Request::class);
+
+// * Assign response object to the app
+// $app->setResponse(new Response());
 
 return $app;
+
+// $app->bind('resolve_root_dir', function ($path) {
+//     return APP_ROOT . $path;
+// });
+
+// //  * Inject dependencies to the App
+// $app->bind('db_config', require APP_ROOT . "/config/database.php");
+
+// // // * Attempt to connect to the database
+// $app->bind('database', new QueryBuilder(
+//     Connection::make($app->get('db_config')['database'])
+// ));
+
+// // * Bind router and request
+// $app->bind('router', Router::load($app->get('resolve_root_dir')("/routes/routes.php")));
+// $app->bind('request', Request::class);
+
+// return $app;
+
+// $router = Router::load(APP_ROOT . 'routes/routes.php');
