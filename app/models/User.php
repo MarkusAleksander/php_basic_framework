@@ -1,15 +1,18 @@
 <?php
 
-namespace App\Model;
+namespace App\Models;
 
-class User
+use Core\Model\Model;
+
+class User extends Model
 {
-    protected $table = 'users';
+    protected string $table = 'users';
 
-    protected $props = array(
+    protected array $props = [
+        'id',
         'first_name',
         'last_name',
         'email',
         'password',
-    );
+    ];
 }
