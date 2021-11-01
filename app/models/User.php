@@ -6,6 +6,8 @@ use Core\Model\Model;
 
 class User extends Model
 {
+
+
     protected string $table = 'users';
 
     protected array $props = [
@@ -14,5 +16,12 @@ class User extends Model
         'last_name',
         'email',
         'password',
+        'status'
     ];
+
+    public function save()
+    {
+        $this->updateDataProp('password', password_hash($this->getDataProp('password'), PASSWORD_DEFAULT));
+        parent::save();
+    }
 }

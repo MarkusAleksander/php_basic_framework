@@ -2,6 +2,8 @@
 
 namespace Core\Model;
 
+use Core\App\App;
+
 abstract class Model
 {
 
@@ -38,5 +40,31 @@ abstract class Model
     public function getData()
     {
         return $this->model_data;
+    }
+
+    /**
+     * Get prop
+     */
+    public function getDataProp($key)
+    {
+        return $this->model_data[$key];
+    }
+
+    /**
+     * Update data prop
+     */
+    public function updateDataProp($key, $newValue)
+    {
+        if (in_array($key, $this->props)) {
+            return $this->model_data[$key] = $newValue;
+        }
+    }
+
+    /**
+     * Save to database
+     */
+    public function save()
+    {
+        App::$app->query()->insert($this->table, $this->getData());
     }
 }

@@ -26,8 +26,10 @@ $app->setRouter(Router::load(App::$APP_ROOT . '/routes/routes.php'));
 // * Assign Query Builder to the app
 $database = require App::$APP_ROOT . "/config/database.php";
 
+$app->setDBConnection(Connection::make($database['database']));
+
 $app->setQueryBuilder(new QueryBuilder(
-    Connection::make($database['database'])
+    $app->connection()
 ));
 
 

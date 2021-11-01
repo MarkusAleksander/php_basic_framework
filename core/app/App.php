@@ -13,6 +13,10 @@ use Core\Database\QueryBuilder;
 
 class App
 {
+    /**
+     * Static instance of the app
+     */
+    public static App $app;
 
     /**
      * Router Instance
@@ -23,6 +27,11 @@ class App
      * Query Builder instance
      */
     private QueryBuilder $query_builder;
+
+    /**
+     * Database Connection instance
+     */
+    private \PDO $db_connection;
 
     /**
      * Response instance
@@ -38,6 +47,7 @@ class App
     public function __construct($APP_ROOT)
     {
         self::$APP_ROOT = $APP_ROOT;
+        self::$app = $this;
     }
 
     /**
@@ -55,6 +65,14 @@ class App
     {
         // * Assign Query Builder
         $this->query_builder = $query_builder;
+    }
+
+    /**
+     * Set DB Connection
+     */
+    public function setDBConnection(\PDO $db_connection)
+    {
+        $this->db_connection = $db_connection;
     }
 
     /**
@@ -79,6 +97,11 @@ class App
     public function query()
     {
         return $this->query_builder;
+    }
+
+    public function connection()
+    {
+        return $this->db_connection;
     }
 
     // public function response()

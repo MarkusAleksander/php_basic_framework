@@ -2,6 +2,8 @@
 
 namespace Core\Validator;
 
+use Core\App\App;
+
 class Validator
 {
 
@@ -153,6 +155,22 @@ class Validator
         if (!filter_var(trim($this->data[$item]), FILTER_VALIDATE_EMAIL)) {
             // * Push to error list
             $this->errors[$item][] = "{$name} must be a valid email";
+            $this->is_valid = false;
+        }
+    }
+
+    /**
+     * Check is unique
+     */
+    public function unique($item, $r, $name = "")
+    {
+        $table_to_check = explode(":", $r)[1];
+
+        $results = App::$app->query()->selectAllFromColumn($table_to_check, $item);
+
+        if (count($results) > 0) {
+            // * Push to error list
+            $this->errors[$item][] = "{$name} is already in use. Please use a unique {$name}";
             $this->is_valid = false;
         }
     }

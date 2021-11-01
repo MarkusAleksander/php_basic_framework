@@ -12,12 +12,14 @@ class Connection
     {
         // * Attempt to connect to the database
         try {
-            return new \PDO(
+            $pdo = new \PDO(
                 $config['connection'] . ':host=' . $config['host'] . ';port=' . $config['port'] . ';dbname=' . $config['name'],
                 $config['username'],
                 $config['password'],
                 $config['options']
             );
+            $pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+            return $pdo;
         } catch (\PDOException $e) {
             die($e->getMessage());
         }

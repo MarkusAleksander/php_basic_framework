@@ -6,6 +6,8 @@ use Core\Controller\Controller;
 use Core\Validator\Validator;
 use App\Models\User;
 
+use Core\Redirect\Redirect;
+
 class AuthController extends Controller
 {
 
@@ -32,7 +34,7 @@ class AuthController extends Controller
         $validator = new Validator(array(
             "first_name" => array('required|min:2', "First Name"),
             "last_name" => array('required|min:2', "Last Name"),
-            "email" => array('required|email', "Email"),
+            "email" => array('required|email|unique:users', "Email"),
             // "email" => array('required|email', "Email"),
             "password" => array('required|min:6|max:14', "Password"),
             "confirm_password" => array('required|matches:password', "Confirm Password"),
@@ -49,10 +51,15 @@ class AuthController extends Controller
         $user = new User();
         $user->loadData($body);
 
-        // $user = new User();
+        try {
+            $user->save();
+        } catch (\Exception $e) {
+            // Redirect to error page
+            die($e->getMessage());
+        }
 
-
-        // * Redirect to logged in form
+        // * Redirect to logged in form when success
+        Redirect::to('/');
     }
 
     public function logout()
